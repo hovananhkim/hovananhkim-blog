@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: jdbc:postgres://localhost:5432/blog
+    username: kimho
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
