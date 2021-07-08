@@ -23,6 +23,7 @@ dependencies {
 }
 
 test {
+	failFast(true)
 	useJUnitPlatform()
 }
 jacocoTestReport {
