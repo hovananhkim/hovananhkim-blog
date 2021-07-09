@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -22,6 +23,12 @@ public class Post {
     @Column(columnDefinition = "TEXT")
     @NotBlank
     private String content;
+
+    @Column(nullable = false)
+    private Date createDate = new Date();
+
+    @Column(nullable = false)
+    private Date updateDate = new Date();
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)

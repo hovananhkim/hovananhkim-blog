@@ -43,4 +43,11 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private Set<Post> posts;
+
+    public User(String email, String firstname, String lastname, String password) {
+        this.email = email;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.password = password;
+    }
 }

@@ -23,10 +23,10 @@ public class Category {
     private String name;
 
     @Column(nullable = false)
-    private Date create_date = new Date();
+    private Date createDate = new Date();
 
     @Column(nullable = false)
-    private Date update_date = new Date();
+    private Date updateDate = new Date();
 
     @OneToMany(mappedBy = "category")
     private Set<Post> posts;

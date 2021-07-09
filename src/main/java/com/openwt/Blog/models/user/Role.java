@@ -4,7 +4,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.Set;
 
 @Data
 @Entity
@@ -19,4 +18,9 @@ public class Role {
     private String name;
 
     private String description;
+
+    public Role(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
 }
