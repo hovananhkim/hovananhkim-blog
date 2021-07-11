@@ -1,15 +1,18 @@
-package com.openwt.Blog.models.user;
+package com.openwt.Blog.model.blog;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.Set;
 
-@Data
 @Entity
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Role {
+public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -17,10 +20,6 @@ public class Role {
     @NotBlank
     private String name;
 
-    private String description;
-
-    public Role(String name, String description) {
-        this.name = name;
-        this.description = description;
-    }
+    @ManyToMany(mappedBy = "tags")
+    private Set<Post> posts;
 }

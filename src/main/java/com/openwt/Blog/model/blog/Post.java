@@ -1,6 +1,6 @@
-package com.openwt.Blog.models.blog;
+package com.openwt.Blog.model.blog;
 
-import com.openwt.Blog.models.user.User;
+import com.openwt.Blog.model.user.User;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -29,6 +29,8 @@ public class Post {
 
     @Column(nullable = false)
     private Date updateDate = new Date();
+
+    private Boolean isActive;
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
