@@ -3,7 +3,6 @@ package com.openwt.Blog.controller;
 import com.openwt.Blog.config.JwtTokenProvider;
 import com.openwt.Blog.model.JwtRequest;
 import com.openwt.Blog.model.JwtResponse;
-import com.openwt.Blog.service.UserDetailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;

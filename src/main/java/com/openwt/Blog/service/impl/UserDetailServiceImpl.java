@@ -1,4 +1,4 @@
-package com.openwt.Blog.service;
+package com.openwt.Blog.service.impl;
 
 import com.openwt.Blog.model.user.Role;
 import com.openwt.Blog.model.user.User;
