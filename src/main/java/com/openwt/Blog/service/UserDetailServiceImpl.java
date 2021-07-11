@@ -16,7 +16,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Component
-public class JwtUserDetailService implements UserDetailsService {
+public class UserDetailServiceImpl implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 

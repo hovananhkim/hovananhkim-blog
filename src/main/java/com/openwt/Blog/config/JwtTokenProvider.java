@@ -58,7 +58,7 @@ public class JwtTokenProvider {
         return Jwts.builder()
                 .setSubject(authentication.getName())
                 .claim(Constants.AUTHORITIES_KEY,authorities)
-                .signWith(SignatureAlgorithm.ES256,signingKey)
+                .signWith(SignatureAlgorithm.HS512,signingKey)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() +ACCESS_TOKEN_VALIDITY_SECONDS*1000))
                 .compact();
