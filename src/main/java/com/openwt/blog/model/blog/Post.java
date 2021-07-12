@@ -1,6 +1,6 @@
-package com.openwt.Blog.model.blog;
+package com.openwt.blog.model.blog;
 
-import com.openwt.Blog.model.user.User;
+import com.openwt.blog.model.user.User;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

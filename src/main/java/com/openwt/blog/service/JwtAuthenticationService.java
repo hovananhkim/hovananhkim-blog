@@ -1,34 +1,24 @@
-package com.openwt.Blog.controller;
+package com.openwt.blog.service;
 
-import com.openwt.Blog.config.JwtTokenProvider;
-import com.openwt.Blog.model.JwtRequest;
-import com.openwt.Blog.model.JwtResponse;
+import com.openwt.blog.config.JwtTokenProvider;
+import com.openwt.blog.model.JwtRequest;
+import com.openwt.blog.model.JwtResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Service;
 
-@RestController
-@RequestMapping("/api/auth")
-public class JwtAuthenticationController {
+@Service
+public class JwtAuthenticationService {
     @Autowired
     private AuthenticationManager authenticationManager;
 
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
-
-
-    @GetMapping
-    public String ok(){
-        return "ok";
-    }
-
-
-    @PostMapping
-    public ResponseEntity<?> login(@RequestBody JwtRequest login) {
+    public ResponseEntity<JwtResponse> login(JwtRequest login) {
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         login.getEmail(),

@@ -1,4 +1,4 @@
-package com.openwt.Blog.model.user;
+package com.openwt.blog.model.user;
 
 import lombok.*;
 

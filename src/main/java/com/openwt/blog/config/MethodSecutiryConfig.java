@@ -1,4 +1,4 @@
-package com.openwt.Blog.config;
+package com.openwt.blog.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;

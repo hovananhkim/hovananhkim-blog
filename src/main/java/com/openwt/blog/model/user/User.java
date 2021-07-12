@@ -1,6 +1,6 @@
-package com.openwt.Blog.model.user;
+package com.openwt.blog.model.user;
 
-import com.openwt.Blog.model.blog.Post;
+import com.openwt.blog.model.blog.Post;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -33,13 +33,9 @@ public class User {
     @NotBlank
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "users_role",
-            joinColumns = @JoinColumn(name = "users_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private Set<Role> roles;
+    @ManyToOne
+    @JoinColumn(name = "role_id",nullable = false)
+    private Role role;
 
     @OneToMany(mappedBy = "user")
     private Set<Post> posts;

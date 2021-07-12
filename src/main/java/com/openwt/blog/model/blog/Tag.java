@@ -1,4 +1,4 @@
-package com.openwt.Blog.model.blog;
+package com.openwt.blog.model.blog;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -6,28 +6,20 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.Date;
 import java.util.Set;
 
+@Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-public class Category {
+public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(unique = true)
     @NotBlank
     private String name;
 
-    @Column(nullable = false)
-    private Date createDate = new Date();
-
-    @Column(nullable = false)
-    private Date updateDate = new Date();
-
-    @OneToMany(mappedBy = "category")
+    @ManyToMany(mappedBy = "tags")
     private Set<Post> posts;
 }

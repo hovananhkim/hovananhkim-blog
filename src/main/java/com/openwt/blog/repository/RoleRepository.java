@@ -1,6 +1,6 @@
-package com.openwt.Blog.repository;
+package com.openwt.blog.repository;
 
-import com.openwt.Blog.model.user.Role;
+import com.openwt.blog.model.user.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RoleRepository extends JpaRepository<Role, Long> {

@@ -1,4 +1,4 @@
-package com.openwt.Blog.model;
+package com.openwt.blog.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

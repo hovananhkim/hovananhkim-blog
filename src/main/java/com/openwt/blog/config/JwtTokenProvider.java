@@ -1,6 +1,6 @@
-package com.openwt.Blog.config;
+package com.openwt.blog.config;
 
-import com.openwt.Blog.model.Constants;
+import com.openwt.blog.model.Constants;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -17,8 +17,8 @@ import java.util.Date;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static com.openwt.Blog.model.Constants.ACCESS_TOKEN_VALIDITY_SECONDS;
-import static com.openwt.Blog.model.Constants.AUTHORITIES_KEY;
+import static com.openwt.blog.model.Constants.ACCESS_TOKEN_VALIDITY_SECONDS;
+import static com.openwt.blog.model.Constants.AUTHORITIES_KEY;
 
 @Component
 @Configuration

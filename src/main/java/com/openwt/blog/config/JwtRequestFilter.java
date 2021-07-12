@@ -1,6 +1,6 @@
-package com.openwt.Blog.config;
+package com.openwt.blog.config;
 
-import com.openwt.Blog.service.impl.UserDetailServiceImpl;
+import com.openwt.blog.service.impl.UserDetailServiceImpl;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,8 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static com.openwt.Blog.model.Constants.HEADER_STRING;
-import static com.openwt.Blog.model.Constants.TOKEN_PREFIX;
+import static com.openwt.blog.model.Constants.HEADER_STRING;
+import static com.openwt.blog.model.Constants.TOKEN_PREFIX;
 
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
