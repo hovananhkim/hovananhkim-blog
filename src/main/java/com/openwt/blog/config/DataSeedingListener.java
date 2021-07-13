@@ -21,25 +21,26 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
     @Autowired
     private RoleRepository roleRepository;
 
-    private void addRoleIfMissing(String name, String description){
+    private void addRoleIfMissing(String name, String description) {
         if (roleRepository.findByName(name) == null) {
             roleRepository.save(new Role(name, description));
         }
     }
 
-    private void addUserIfMissing(String username, String password, String role){
+    public void addUserIfMissing(String username, String firstname, String lastname, String password, String role) {
         if (userRepository.findByEmail(username) == null) {
-            User user = new User(username, "First name", "Last name", new BCryptPasswordEncoder().encode(password));
+            User user = new User(username, firstname, lastname, new BCryptPasswordEncoder().encode(password));
             user.setRole(roleRepository.findByName(role));
             userRepository.save(user);
         }
     }
+
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         addRoleIfMissing("ROLE_ADMIN", "Administrators");
         addRoleIfMissing("ROLE_USER", "Users");
 
-        addUserIfMissing("user@gmail.com", "password", "ROLE_USER");
-        addUserIfMissing("admin@gmail.com", "password","ROLE_ADMIN");
+        addUserIfMissing("user@gmail.com", "Kim", "Ho", "password", "ROLE_USER");
+        addUserIfMissing("admin@gmail.com", "Admin", "Spring", "password", "ROLE_ADMIN");
     }
 }

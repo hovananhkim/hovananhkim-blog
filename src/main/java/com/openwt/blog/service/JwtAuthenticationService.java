@@ -1,6 +1,7 @@
 package com.openwt.blog.service;
 
 import com.openwt.blog.config.JwtTokenProvider;
+import com.openwt.blog.model.Constants;
 import com.openwt.blog.model.JwtRequest;
 import com.openwt.blog.model.JwtResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,6 @@ import org.springframework.stereotype.Service;
 public class JwtAuthenticationService {
     @Autowired
     private AuthenticationManager authenticationManager;
-
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
     public ResponseEntity<JwtResponse> login(JwtRequest login) {

@@ -24,6 +24,8 @@ public class WebServiceConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/api/auth").permitAll()
+                .antMatchers("/api/posts/**").permitAll()
+                .antMatchers("/api/categories/**").permitAll()
                 .anyRequest().authenticated();
         http
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
