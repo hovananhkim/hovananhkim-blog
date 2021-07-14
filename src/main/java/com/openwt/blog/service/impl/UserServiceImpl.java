@@ -48,7 +48,6 @@ public class UserServiceImpl implements BlogService<User> {
         if (userRepository.findByEmail(user.getEmail()) != null) {
             throw new BadRequestException("Email is exist");
         }
-        user.setId(0);
         user.setRole(roleRepository.findByName("ROLE_USER"));
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         return userRepository.save(user);
@@ -56,13 +55,21 @@ public class UserServiceImpl implements BlogService<User> {
 
     @Override
     public User update(User user, long id) {
-        verifyUserIsExist(id);
+        User u = findById(id);
         User userLogin = getMyUser();
         if (userLogin.getId() == id || userLogin.getRole().getName().equals("ROLE_ADMIN")) {
-            user.setId(id);
-            return userRepository.save(user);
+            if (!user.getEmail().equals(u.getEmail())){
+                if (userRepository.findByEmail(user.getEmail())!=null){
+                    throw new BadRequestException("Email is exist");
+                }
+            }
+            u.setEmail(user.getEmail());
+            u.setFirstname(user.getFirstname());
+            u.setLastname(user.getLastname());
+            u.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+            return userRepository.save(u);
         }
-        throw new BadRequestException("");
+        throw new BadRequestException("Unauthorized");
     }
 
     @Override

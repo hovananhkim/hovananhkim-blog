@@ -47,13 +47,16 @@ public class PostServiceImpl implements BlogService<Post> {
     }
 
     public Post save(PostDTO postDTO){
-        return postRepository.save(postDtoToPost.convert(postDTO));
+        return save(postDtoToPost.convert(postDTO));
     }
 
     @Override
     public Post update(Post post, long id) {
+        return null;
+    }
+    public Post update(PostDTO postDto, long id) {
         verifyPostIsExist(id);
-        post.setId(id);
+        Post post = postDtoToPost.convert(postDto);
         post.setUpdateDate(new Date());
         return postRepository.save(post);
     }

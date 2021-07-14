@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,15 +34,15 @@ public class PostController {
 
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @PostMapping
-    public Post post(@RequestBody PostDTO post) {
+    public Post post(@Valid  @RequestBody PostDTO post) {
         return postService.save(post);
     }
 
-//    @Secured({"ROLE_ADMIN", "ROLE_USER"})
-//    @PutMapping("/{id}")
-//    public Post put(@RequestBody Post post, @PathVariable long id) {
-//        return postService.put(post, id);
-//    }
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
+    @PutMapping("/{id}")
+    public Post put(@Valid @RequestBody PostDTO post, @PathVariable long id) {
+        return postService.update(post, id);
+    }
 
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @DeleteMapping("/{id}")
