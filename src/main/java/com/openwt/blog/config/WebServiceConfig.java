@@ -26,6 +26,7 @@ public class WebServiceConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/auth").permitAll()
                 .antMatchers("/api/posts/**").permitAll()
                 .antMatchers("/api/categories/**").permitAll()
+                .antMatchers("/api/users/register").permitAll()
                 .anyRequest().authenticated();
         http
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);

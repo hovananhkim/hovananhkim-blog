@@ -1,12 +1,12 @@
 package com.openwt.blog.model.blog;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.Collection;
 import java.util.Set;
 
 @Entity
@@ -22,10 +22,7 @@ public class Tag {
     @Column(unique = true)
     private String name;
 
-    @ManyToMany(mappedBy = "tags")
+    @ManyToMany(mappedBy = "tags",fetch = FetchType.EAGER)
+    @JsonIgnoreProperties("tags")
     private Set<Post> posts;
-
-    public Tag(String name) {
-        this.name = name;
-    }
 }

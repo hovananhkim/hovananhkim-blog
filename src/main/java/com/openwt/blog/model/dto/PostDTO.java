@@ -2,20 +2,23 @@ package com.openwt.blog.model.dto;
 
 import lombok.Data;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.Collection;
+import java.util.Date;
 import java.util.Set;
 
 @Data
 public class PostDTO {
+    private long id;
     @NotBlank
     private String title;
     @NotBlank
     private String content;
-    @Column(nullable = false)
-    private long categoryId;
-    @Column(nullable = false)
-    private Collection<String> tags;
+    @NotNull
+    private String category;
+    @NotNull
+    private String email;
+    @NotNull
+    private Set<String> tags;
 }
+

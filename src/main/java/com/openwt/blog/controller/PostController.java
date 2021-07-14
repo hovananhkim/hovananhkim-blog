@@ -2,12 +2,11 @@ package com.openwt.blog.controller;
 
 import com.openwt.blog.model.blog.Post;
 import com.openwt.blog.model.dto.PostDTO;
-import com.openwt.blog.service.PostService;
+import com.openwt.blog.service.impl.PostServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,10 +14,10 @@ import java.util.Optional;
 @RequestMapping("/api/posts")
 public class PostController {
     @Autowired
-    private PostService postService;
+    private PostServiceImpl postService;
 
     @RequestMapping("/{id}")
-    public Optional<Post> get(@PathVariable long id) {
+    public Post get(@PathVariable long id) {
         return postService.findById(id);
     }
 
@@ -28,15 +27,15 @@ public class PostController {
     }
 
     @RequestMapping("/search")
-    public Optional<Post> search(@RequestParam String keyword) {
-        return postService.findByName(keyword);
+    public List<Post> search(@RequestParam String keyword) {
+        return postService.findByNameContaining(keyword);
     }
 
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @PostMapping
     public Post post(@RequestBody PostDTO post) {
         System.out.println("vo1");
-        return postService.post(post);
+        return postService.save(post);
     }
 
 //    @Secured({"ROLE_ADMIN", "ROLE_USER"})
@@ -48,7 +47,7 @@ public class PostController {
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @DeleteMapping("/{id}")
     public String delete(@PathVariable long id) {
-        postService.delete(id);
+        postService.deleteAt(id);
         return String.format("Delete post id: %d success", id);
     }
 }
