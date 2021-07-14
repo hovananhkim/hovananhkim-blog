@@ -34,7 +34,6 @@ public class PostController {
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @PostMapping
     public Post post(@RequestBody PostDTO post) {
-        System.out.println("vo1");
         return postService.save(post);
     }
 

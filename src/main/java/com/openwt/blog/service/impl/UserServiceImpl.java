@@ -20,9 +20,10 @@ public class UserServiceImpl implements BlogService<User> {
     private UserRepository userRepository;
     @Autowired
     private RoleRepository roleRepository;
+
     @Override
     public User findById(long id) {
-        isExist(id);
+        verifyUserIsExist(id);
         return userRepository.findById(id).get();
     }
 
@@ -33,22 +34,18 @@ public class UserServiceImpl implements BlogService<User> {
 
     @Override
     public List<User> findByNameContaining(String keyword) {
-        return null;
+        return userRepository.findByFirstnameContainsOrLastnameContains(keyword, keyword);
     }
 
     @Override
     public User findByName(String keyword) {
-        isExist(keyword);
-        return userRepository.findByEmail(keyword);
-    }
-    public User findByUserName(String keyword) {
-        isExist(keyword);
+        verifyUserIsExist(keyword);
         return userRepository.findByEmail(keyword);
     }
 
     @Override
     public User save(User user) {
-        if (userRepository.findByEmail(user.getEmail())!=null){
+        if (userRepository.findByEmail(user.getEmail()) != null) {
             throw new BadRequestException("Email is exist");
         }
         user.setId(0);
@@ -59,9 +56,9 @@ public class UserServiceImpl implements BlogService<User> {
 
     @Override
     public User update(User user, long id) {
-        isExist(id);
+        verifyUserIsExist(id);
         User userLogin = getMyUser();
-        if (userLogin.getId()==id || userLogin.getRole().getName().equals("ROLE_ADMIN")){
+        if (userLogin.getId() == id || userLogin.getRole().getName().equals("ROLE_ADMIN")) {
             user.setId(id);
             return userRepository.save(user);
         }
@@ -70,25 +67,24 @@ public class UserServiceImpl implements BlogService<User> {
 
     @Override
     public void deleteAt(long id) {
-        isExist(id);
+        verifyUserIsExist(id);
         userRepository.deleteById(id);
     }
 
-    @Override
-    public void isExist(long id) {
+    private void verifyUserIsExist(long id) {
         if (!userRepository.existsById(id)) {
             throw new NotFoundException(String.format("User id: %d not found", id));
         }
     }
 
-    @Override
-    public void isExist(String keyword) {
-        if (userRepository.findByEmail(keyword) == null) {
-            throw new NotFoundException(String.format("User email: %s not found", keyword));
+    private void verifyUserIsExist(String email) {
+        if (userRepository.findByEmail(email) == null) {
+            throw new NotFoundException(String.format("User email: %s not found", email));
         }
     }
-    public User getMyUser(){
+
+    public User getMyUser() {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return findByUserName(userDetails.getUsername());
+        return findByName(userDetails.getUsername());
     }
 }

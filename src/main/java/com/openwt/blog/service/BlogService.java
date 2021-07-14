@@ -16,8 +16,4 @@ public interface BlogService<T> {
     T update(T t, long id);
 
     void deleteAt(long id);
-
-    void isExist(long id);
-
-    void isExist(String keyword);
 }

@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/")
 public class UserController {
     @Autowired
     private UserServiceImpl userService;
 
-    @GetMapping("/{id}")
+    @GetMapping("users/{id}")
     public User get(@PathVariable long id) {
         return userService.findById(id);
     }
@@ -26,7 +26,7 @@ public class UserController {
     }
 
     @Secured("ROLE_ADMIN")
-    @DeleteMapping("/{id}")
+    @DeleteMapping("users/{id}")
     public void delete(@PathVariable long id) {
         userService.deleteAt(id);
     }
@@ -36,7 +36,7 @@ public class UserController {
         return userService.save(user);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("users/{id}")
     public User put(@RequestBody User user, @PathVariable long id) {
         return userService.update(user, id);
     }

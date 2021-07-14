@@ -37,7 +37,7 @@ public class PostDtoToPost extends Converter<PostDTO, Post> {
         User user = userService.getMyUser();
         post.setUser(user);
 
-        Category category = categoryService.findByName(source.getCategory());
+        Category category = categoryService.findById(source.getCategory());
         post.setCategory(category);
 
         Set<Tag> tags = new HashSet<>();
@@ -53,6 +53,6 @@ public class PostDtoToPost extends Converter<PostDTO, Post> {
         }
         post.setTags(tags);
 
-        return postService.save(post);
+        return post;
     }
 }

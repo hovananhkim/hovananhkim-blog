@@ -21,7 +21,7 @@ public class PostServiceImpl implements BlogService<Post> {
     private UserServiceImpl userService;
     @Override
     public Post findById(long id) {
-        isExist(id);
+        verifyPostIsExist(id);
         return postRepository .findById(id).get();
     }
 
@@ -37,7 +37,7 @@ public class PostServiceImpl implements BlogService<Post> {
 
     @Override
     public Post findByName(String keyword) {
-        isExist(keyword);
+        verifyPostIsExist(keyword);
         return postRepository.findByTitle(keyword);
     }
 
@@ -47,12 +47,12 @@ public class PostServiceImpl implements BlogService<Post> {
     }
 
     public Post save(PostDTO postDTO){
-        return postDtoToPost.convert(postDTO);
+        return postRepository.save(postDtoToPost.convert(postDTO));
     }
 
     @Override
     public Post update(Post post, long id) {
-        isExist(id);
+        verifyPostIsExist(id);
         post.setId(id);
         post.setUpdateDate(new Date());
         return postRepository.save(post);
@@ -60,19 +60,17 @@ public class PostServiceImpl implements BlogService<Post> {
 
     @Override
     public void deleteAt(long id) {
-        isExist(id);
+        verifyPostIsExist(id);
         postRepository.deleteById(id);
     }
 
-    @Override
-    public void isExist(long id) {
+    private void verifyPostIsExist(long id) {
         if (!postRepository.existsById(id)) {
             throw new NotFoundException(String.format("Post id: %d not found", id));
         }
     }
 
-    @Override
-    public void isExist(String keyword) {
+    private void verifyPostIsExist(String keyword) {
         if (postRepository.findByTitleContaining(keyword) == null) {
             throw new NotFoundException(String.format("Post title: %s not found", keyword));
         }

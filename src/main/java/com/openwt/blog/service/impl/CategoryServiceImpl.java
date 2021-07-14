@@ -19,7 +19,7 @@ public class CategoryServiceImpl implements BlogService<Category> {
 
     @Override
     public Category findById(long id) {
-        isExist(id);
+        verifyCategoryIsExist(id);
         return categoryRepository.findById(id).get();
     }
 
@@ -35,14 +35,14 @@ public class CategoryServiceImpl implements BlogService<Category> {
 
     @Override
     public Category findByName(String keyword) {
-        isExist(keyword);
+        verifyCategoryIsExist(keyword);
         return categoryRepository.findByName(keyword);
     }
 
     @Override
     public Category save(Category category) {
         if (categoryRepository.findByName(category.getName()) != null) {
-            throw new BadRequestException("Category exist");
+            throw new BadRequestException("Category is exist");
         }
         category.setId(0);
         return categoryRepository.save(category);
@@ -50,7 +50,7 @@ public class CategoryServiceImpl implements BlogService<Category> {
 
     @Override
     public Category update(Category category, long id) {
-        isExist(id);
+        verifyCategoryIsExist(id);
         category.setId(id);
         category.setUpdateDate(new Date());
         return categoryRepository.save(category);
@@ -58,19 +58,17 @@ public class CategoryServiceImpl implements BlogService<Category> {
 
     @Override
     public void deleteAt(long id) {
-        isExist(id);
+        verifyCategoryIsExist(id);
         categoryRepository.deleteById(id);
     }
 
-    @Override
-    public void isExist(long id) {
+    public void verifyCategoryIsExist(long id) {
         if (!categoryRepository.existsById(id)) {
             throw new NotFoundException(String.format("Category id: %d not found", id));
         }
     }
 
-    @Override
-    public void isExist(String keyword) {
+    public void verifyCategoryIsExist(String keyword) {
         if (categoryRepository.findByNameContaining(keyword) == null) {
             throw new NotFoundException(String.format("Category name: %s not found", keyword));
         }

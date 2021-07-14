@@ -17,6 +17,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "users")
+@JsonIgnoreProperties("password")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -27,10 +28,8 @@ public class User {
     @NotBlank
     private String email;
 
-    @NotBlank
     private String firstname;
 
-    @NotBlank
     private String lastname;
 
     @NotBlank

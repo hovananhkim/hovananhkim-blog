@@ -9,15 +9,12 @@ import java.util.Set;
 
 @Data
 public class PostDTO {
-    private long id;
     @NotBlank
     private String title;
     @NotBlank
     private String content;
     @NotNull
-    private String category;
-    @NotNull
-    private String email;
+    private long category;
     @NotNull
     private Set<String> tags;
 }

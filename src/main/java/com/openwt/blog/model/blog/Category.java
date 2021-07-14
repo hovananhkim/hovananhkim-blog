@@ -2,11 +2,10 @@ package com.openwt.blog.model.blog;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.Set;
 
@@ -25,10 +24,10 @@ public class Category {
     @NotBlank
     private String name;
 
-    @Column(nullable = false)
+    @NotNull
     private Date createDate = new Date();
 
-    @Column(nullable = false)
+    @NotNull
     private Date updateDate = new Date();
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
