@@ -21,7 +21,6 @@ import static com.openwt.blog.model.Constants.ACCESS_TOKEN_VALIDITY_SECONDS;
 import static com.openwt.blog.model.Constants.AUTHORITIES_KEY;
 
 @Component
-@Configuration
 public class JwtTokenProvider {
     @Value("${jwt-key}")
     private String signingKey;
@@ -51,22 +50,24 @@ public class JwtTokenProvider {
         return expiration.before(new Date());
     }
 
-    public String generateToken(Authentication authentication){
+    public String generateToken(Authentication authentication) {
         final String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
         return Jwts.builder()
                 .setSubject(authentication.getName())
-                .claim(Constants.AUTHORITIES_KEY,authorities)
-                .signWith(SignatureAlgorithm.HS512,signingKey)
+                .claim(AUTHORITIES_KEY, authorities)
+                .signWith(SignatureAlgorithm.HS256, signingKey)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() +ACCESS_TOKEN_VALIDITY_SECONDS*1000))
+                .setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_VALIDITY_SECONDS * 1000))
                 .compact();
     }
+
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = getUsernameFromToken(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
+
     public UsernamePasswordAuthenticationToken getAuthentication(final String token, final Authentication existingAuth, final UserDetails userDetails) {
         final JwtParser jwtParser = Jwts.parser().setSigningKey(signingKey);
         final Jws<Claims> claimsJws = jwtParser.parseClaimsJws(token);

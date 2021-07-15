@@ -34,10 +34,13 @@ public class User {
 
     private String lastname;
 
-    @ManyToOne
-    @JoinColumn(name = "role_id", nullable = false)
-    @JsonIgnoreProperties({"id","description"})
-    private Role role;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnoreProperties({"user","category","tags","createDate","updateDate"})

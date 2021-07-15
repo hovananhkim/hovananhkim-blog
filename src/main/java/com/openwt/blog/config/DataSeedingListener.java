@@ -11,6 +11,8 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
+
 
 @Component
 @Configuration
@@ -27,10 +29,14 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
         }
     }
 
-    public void addUserIfMissing(String username, String firstname, String lastname, String password, String role) {
+    public void addUserIfMissing(String username, String firstname, String lastname, String password, String... roles) {
         if (userRepository.findByEmail(username) == null) {
             User user = new User(username, firstname, lastname, new BCryptPasswordEncoder().encode(password));
-            user.setRole(roleRepository.findByName(role));
+            user.setRoles(new HashSet<>());
+
+            for (String role: roles) {
+                user.getRoles().add(roleRepository.findByName(role));
+            }
             userRepository.save(user);
         }
     }
@@ -41,6 +47,6 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
         addRoleIfMissing("ROLE_USER", "Users");
 
         addUserIfMissing("user@gmail.com", "Kim", "Ho", "password", "ROLE_USER");
-        addUserIfMissing("admin@gmail.com", "Admin", "Spring", "password", "ROLE_ADMIN");
+        addUserIfMissing("admin@gmail.com", "Admin", "Spring", "password", "ROLE_ADMIN","ROLE_USER");
     }
 }

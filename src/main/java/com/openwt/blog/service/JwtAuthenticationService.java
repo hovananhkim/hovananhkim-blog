@@ -26,7 +26,7 @@ public class JwtAuthenticationService {
                 )
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtTokenProvider.generateToken(authentication);
+        final String token = jwtTokenProvider.generateToken(authentication);
         return ResponseEntity.ok(new JwtResponse(token));
     }
 }

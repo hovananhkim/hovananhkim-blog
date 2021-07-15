@@ -3,6 +3,7 @@ package com.openwt.blog.config;
 import com.openwt.blog.service.impl.UserDetailServiceImpl;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,6 +21,7 @@ import static com.openwt.blog.model.Constants.HEADER_STRING;
 import static com.openwt.blog.model.Constants.TOKEN_PREFIX;
 
 @Component
+@Configuration
 public class JwtRequestFilter extends OncePerRequestFilter {
     @Autowired
     private UserDetailServiceImpl userDetailServiceImpl;
@@ -33,6 +35,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         String email = null;
         String jwtToken = null;
         if (header != null && header.startsWith(TOKEN_PREFIX)) {
+
             jwtToken = header.replace(TOKEN_PREFIX, "");
             try {
                 email = jwtTokenProvider.getUsernameFromToken(jwtToken);
@@ -48,7 +51,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             UserDetails userDetails = userDetailServiceImpl.loadUserByUsername(email);
             if (jwtTokenProvider.validateToken(jwtToken, userDetails)) {
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = jwtTokenProvider
-                        .getAuthentication(jwtToken, SecurityContextHolder.getContext().getAuthentication(),userDetails);
+                        .getAuthentication(jwtToken, SecurityContextHolder.getContext().getAuthentication(), userDetails);
                 usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 logger.info("authenticated user " + email + ", setting security context");
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);

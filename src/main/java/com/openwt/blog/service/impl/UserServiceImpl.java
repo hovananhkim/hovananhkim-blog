@@ -2,6 +2,7 @@ package com.openwt.blog.service.impl;
 
 import com.openwt.blog.exception.BadRequestException;
 import com.openwt.blog.exception.NotFoundException;
+import com.openwt.blog.model.user.Role;
 import com.openwt.blog.model.user.User;
 import com.openwt.blog.repository.RoleRepository;
 import com.openwt.blog.repository.UserRepository;
@@ -13,6 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserServiceImpl implements BlogService<User> {
@@ -48,7 +50,7 @@ public class UserServiceImpl implements BlogService<User> {
         if (userRepository.findByEmail(user.getEmail()) != null) {
             throw new BadRequestException("Email is exist");
         }
-        user.setRole(roleRepository.findByName("ROLE_USER"));
+        user.getRoles().add(roleRepository.findByName("ROLE_USER"));
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         return userRepository.save(user);
     }
@@ -57,7 +59,7 @@ public class UserServiceImpl implements BlogService<User> {
     public User update(User user, long id) {
         User u = findById(id);
         User userLogin = getMyUser();
-        if (userLogin.getId() == id || userLogin.getRole().getName().equals("ROLE_ADMIN")) {
+        if (userLogin.getId() == id || userLoginIsAdmin()) {
             if (!user.getEmail().equals(u.getEmail())){
                 if (userRepository.findByEmail(user.getEmail())!=null){
                     throw new BadRequestException("Email is exist");
@@ -93,5 +95,15 @@ public class UserServiceImpl implements BlogService<User> {
     public User getMyUser() {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return findByName(userDetails.getUsername());
+    }
+    private boolean userLoginIsAdmin(){
+        User user = getMyUser();
+        Set<Role> roles = user.getRoles();
+        for (Role role:roles){
+            if (role.getName().equals("ROLE_ADMIN")){
+                return true;
+            }
+        }
+        return false;
     }
 }

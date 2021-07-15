@@ -36,10 +36,8 @@ public class PostDtoToPost extends Converter<PostDTO, Post> {
         post.setContent(source.getContent());
         User user = userService.getMyUser();
         post.setUser(user);
-
         Category category = categoryService.findById(source.getCategory());
         post.setCategory(category);
-
         Set<Tag> tags = new HashSet<>();
         for(String tagName:source.getTags()){
             if (tagRepository.findByName(tagName)==null){
@@ -52,7 +50,6 @@ public class PostDtoToPost extends Converter<PostDTO, Post> {
             tags.add(tag);
         }
         post.setTags(tags);
-
         return post;
     }
 }

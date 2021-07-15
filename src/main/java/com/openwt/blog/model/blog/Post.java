@@ -1,13 +1,10 @@
 package com.openwt.blog.model.blog;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.openwt.blog.model.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -41,12 +38,12 @@ public class Post {
     private Boolean isActive = false;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JsonIgnoreProperties({"posts","creatDate","updateDate"})
+    @JsonIgnoreProperties({"posts","createDate","updateDate"})
     @JoinColumn(name = "category_id")
     private Category category;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JsonIgnoreProperties({"posts","firstname","lastname","password"})
+    @JsonIgnoreProperties({"posts","firstname","lastname","password","roles"})
     @JoinColumn(name = "users_id")
     private User user;
 
