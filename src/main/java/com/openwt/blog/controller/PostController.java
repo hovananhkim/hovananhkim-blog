@@ -23,7 +23,7 @@ public class PostController {
     }
 
     @RequestMapping
-    public List<Post> get() {
+    public List<Post> getAll() {
         return postService.findAll();
     }
 
@@ -32,21 +32,21 @@ public class PostController {
         return postService.findByNameContaining(keyword);
     }
 
-    @Secured({"ROLE_ADMIN", "ROLE_USER"})
+    @Secured("ROLE_USER")
     @PostMapping
     public Post post(@Valid @RequestBody PostDTO post) {
         return postService.save(post);
     }
 
-    @Secured({"ROLE_ADMIN", "ROLE_USER"})
+    @Secured("ROLE_USER")
     @PutMapping("/{id}")
     public Post put(@Valid @RequestBody PostDTO post, @PathVariable long id) {
         return postService.update(post, id);
     }
 
-    @Secured({"ROLE_ADMIN", "ROLE_USER"})
+    @Secured("ROLE_USER")
     @DeleteMapping("/{id}")
     public void delete(@PathVariable long id) {
-        postService.deleteAt(id);
+        postService.delete(id);
     }
 }

@@ -36,7 +36,7 @@ public class PostDtoToPost extends Converter<PostDTO, Post> {
         post.setContent(source.getContent());
         User user = userService.getMyUser();
         post.setUser(user);
-        Category category = categoryService.findById(source.getCategory());
+        Category category = categoryService.findById(source.getCategoryId());
         post.setCategory(category);
         Set<Tag> tags = new HashSet<>();
         for (String tagName : source.getTags()) {

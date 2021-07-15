@@ -75,7 +75,7 @@ public class UserServiceImpl implements BlogService<User> {
     }
 
     @Override
-    public void deleteAt(long id) {
+    public void delete(long id) {
         verifyUserIsExist(id);
         userRepository.deleteById(id);
     }

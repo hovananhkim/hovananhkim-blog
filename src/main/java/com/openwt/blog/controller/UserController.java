@@ -22,22 +22,17 @@ public class UserController {
 
     @Secured("ROLE_ADMIN")
     @GetMapping("/users")
-    public List<User> get() {
+    public List<User> getAll() {
         return userService.findAll();
     }
 
     @Secured("ROLE_ADMIN")
     @DeleteMapping("/users/{id}")
     public void delete(@PathVariable long id) {
-        userService.deleteAt(id);
+        userService.delete(id);
     }
 
-    @PostMapping("/register")
-    public User register(@Valid @RequestBody User user) {
-        return userService.save(user);
-    }
-
-    @Secured({"ROLE_USER", "ROLE_ADMIN"})
+    @Secured({"ROLE_USER"})
     @PutMapping("users/{id}")
     public User put(@Valid @RequestBody User user, @PathVariable long id) {
         return userService.update(user, id);

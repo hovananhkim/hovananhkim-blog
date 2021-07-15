@@ -57,7 +57,7 @@ public class CategoryServiceImpl implements BlogService<Category> {
     }
 
     @Override
-    public void deleteAt(long id) {
+    public void delete(long id) {
         verifyCategoryIsExist(id);
         categoryRepository.deleteById(id);
     }

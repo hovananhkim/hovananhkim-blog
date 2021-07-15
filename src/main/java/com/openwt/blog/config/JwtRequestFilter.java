@@ -1,5 +1,6 @@
 package com.openwt.blog.config;
 
+import com.openwt.blog.exception.UnauthorizedException;
 import com.openwt.blog.service.impl.UserDetailServiceImpl;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -15,5 +15,5 @@ public interface BlogService<T> {
 
     T update(T t, long id);
 
-    void deleteAt(long id);
+    void delete(long id);
 }

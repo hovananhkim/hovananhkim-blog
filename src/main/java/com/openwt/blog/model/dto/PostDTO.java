@@ -14,7 +14,7 @@ public class PostDTO {
     @NotBlank
     private String content;
     @NotNull
-    private long category;
+    private long categoryId;
     @NotNull
     private Set<String> tags;
 }

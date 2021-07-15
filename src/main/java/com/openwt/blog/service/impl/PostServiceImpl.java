@@ -63,11 +63,11 @@ public class PostServiceImpl implements BlogService<Post> {
         Post post = postDtoToPost.convert(postDto);
         post.setId(id);
         post.setUpdateDate(new Date());
-        return postRepository.save(post);
+        return save(post);
     }
 
     @Override
-    public void deleteAt(long id) {
+    public void delete(long id) {
         verifyPostIsExist(id);
         Post post = findById(id);
         checkAuthorized(post.getUser().getId());

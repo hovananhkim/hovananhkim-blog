@@ -21,7 +21,7 @@ public class CategoryController {
     }
 
     @RequestMapping
-    public List<Category> get() {
+    public List<Category> getAll() {
         return categoryService.findAll();
     }
 
@@ -45,6 +45,6 @@ public class CategoryController {
     @Secured({"ROLE_ADMIN"})
     @DeleteMapping("/{id}")
     public void delete(@PathVariable long id) {
-        categoryService.deleteAt(id);
+        categoryService.delete(id);
     }
 }
