@@ -34,7 +34,7 @@ public class PostController {
 
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @PostMapping
-    public Post post(@Valid  @RequestBody PostDTO post) {
+    public Post post(@Valid @RequestBody PostDTO post) {
         return postService.save(post);
     }
 
@@ -46,8 +46,7 @@ public class PostController {
 
     @Secured({"ROLE_ADMIN", "ROLE_USER"})
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable long id) {
+    public void delete(@PathVariable long id) {
         postService.deleteAt(id);
-        return String.format("Delete post id: %d success", id);
     }
 }

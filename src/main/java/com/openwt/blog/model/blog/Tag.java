@@ -11,7 +11,6 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,7 +20,7 @@ public class Tag {
     @Column(unique = true)
     private String name;
 
-    @ManyToMany(mappedBy = "tags",fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "tags", fetch = FetchType.EAGER)
     @JsonIgnoreProperties("tags")
     private Set<Post> posts;
 }

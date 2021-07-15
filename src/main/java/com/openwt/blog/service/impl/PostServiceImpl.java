@@ -2,8 +2,11 @@ package com.openwt.blog.service.impl;
 
 import com.openwt.blog.converter.PostDtoToPost;
 import com.openwt.blog.exception.NotFoundException;
+import com.openwt.blog.exception.UnauthorizedException;
+import com.openwt.blog.model.blog.Category;
 import com.openwt.blog.model.blog.Post;
 import com.openwt.blog.model.dto.PostDTO;
+import com.openwt.blog.model.user.User;
 import com.openwt.blog.repository.PostRepository;
 import com.openwt.blog.service.BlogService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +59,9 @@ public class PostServiceImpl implements BlogService<Post> {
     }
     public Post update(PostDTO postDto, long id) {
         verifyPostIsExist(id);
+        checkAuthorized(postRepository.findById(id).get().getUser().getId());
         Post post = postDtoToPost.convert(postDto);
+        post.setId(id);
         post.setUpdateDate(new Date());
         return postRepository.save(post);
     }
@@ -64,7 +69,20 @@ public class PostServiceImpl implements BlogService<Post> {
     @Override
     public void deleteAt(long id) {
         verifyPostIsExist(id);
+        Post post = findById(id);
+        checkAuthorized(post.getUser().getId());
+        User user = userService.getMyUser();
+        user.getPosts().remove(post);
+        Category category = post.getCategory();
+        category.getPosts().remove(post);
         postRepository.deleteById(id);
+    }
+
+    public void checkAuthorized(long id) {
+        User user = userService.getMyUser();
+        if (user.getId() != id && user.getRoles().size()!=2){
+            throw new UnauthorizedException("Unauthorized");
+        }
     }
 
     private void verifyPostIsExist(long id) {

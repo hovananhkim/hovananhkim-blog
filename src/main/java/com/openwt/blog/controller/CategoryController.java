@@ -21,13 +21,15 @@ public class CategoryController {
     }
 
     @RequestMapping
-    public List<Category> get(){
+    public List<Category> get() {
         return categoryService.findAll();
     }
+
     @RequestMapping("/search")
-    public List<Category> search(@RequestParam String keyword){
+    public List<Category> search(@RequestParam String keyword) {
         return categoryService.findByNameContaining(keyword);
     }
+
     @Secured("ROLE_ADMIN")
     @PostMapping
     public Category post(@Valid @RequestBody Category category) {
@@ -42,8 +44,7 @@ public class CategoryController {
 
     @Secured({"ROLE_ADMIN"})
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable long id) {
+    public void delete(@PathVariable long id) {
         categoryService.deleteAt(id);
-        return String.format("Delete category id: %d success",id);
     }
 }

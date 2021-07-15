@@ -12,8 +12,6 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
-@ToString
 @Entity
 public class Category {
     @Id
@@ -30,8 +28,8 @@ public class Category {
     @NotNull
     private Date updateDate = new Date();
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    @JsonIgnoreProperties({"category","user","tags","createDate","updateDate"})
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnoreProperties({"category", "user", "tags", "createDate", "updateDate"})
     private Set<Post> posts;
 
 }

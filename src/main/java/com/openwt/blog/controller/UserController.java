@@ -36,7 +36,8 @@ public class UserController {
     public User register(@Valid @RequestBody User user) {
         return userService.save(user);
     }
-    @Secured({"ROLE_USER","ROLE_ADMIN"})
+
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @PutMapping("users/{id}")
     public User put(@Valid @RequestBody User user, @PathVariable long id) {
         return userService.update(user, id);

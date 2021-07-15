@@ -19,7 +19,6 @@ import java.util.HashSet;
 public class DataSeedingListener implements ApplicationListener<ContextRefreshedEvent> {
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private RoleRepository roleRepository;
 
@@ -33,8 +32,7 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
         if (userRepository.findByEmail(username) == null) {
             User user = new User(username, firstname, lastname, new BCryptPasswordEncoder().encode(password));
             user.setRoles(new HashSet<>());
-
-            for (String role: roles) {
+            for (String role : roles) {
                 user.getRoles().add(roleRepository.findByName(role));
             }
             userRepository.save(user);
@@ -47,6 +45,6 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
         addRoleIfMissing("ROLE_USER", "Users");
 
         addUserIfMissing("user@gmail.com", "Kim", "Ho", "password", "ROLE_USER");
-        addUserIfMissing("admin@gmail.com", "Admin", "Spring", "password", "ROLE_ADMIN","ROLE_USER");
+        addUserIfMissing("admin@gmail.com", "Admin", "Spring", "password", "ROLE_ADMIN", "ROLE_USER");
     }
 }

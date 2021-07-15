@@ -23,15 +23,16 @@ public class WebServiceConfig extends WebSecurityConfigurerAdapter {
     private JwtRequestFilter jwtRequestFilter;
     @Autowired
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/auth").permitAll()
-                .antMatchers("/api/posts/**").permitAll()
-                .antMatchers("/api/categories/**").permitAll()
-                .antMatchers("/api/register").permitAll()
-                .antMatchers("/api/users/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/auth").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/categories/**").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/register").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/users/**").permitAll()
                 .anyRequest().authenticated()
                 .and().exceptionHandling()
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
@@ -46,8 +47,6 @@ public class WebServiceConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
-
-
 
     @Autowired
     public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {

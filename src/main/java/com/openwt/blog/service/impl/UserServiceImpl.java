@@ -2,6 +2,7 @@ package com.openwt.blog.service.impl;
 
 import com.openwt.blog.exception.BadRequestException;
 import com.openwt.blog.exception.NotFoundException;
+import com.openwt.blog.exception.UnauthorizedException;
 import com.openwt.blog.model.user.Role;
 import com.openwt.blog.model.user.User;
 import com.openwt.blog.repository.RoleRepository;
@@ -13,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -50,6 +52,7 @@ public class UserServiceImpl implements BlogService<User> {
         if (userRepository.findByEmail(user.getEmail()) != null) {
             throw new BadRequestException("Email is exist");
         }
+        user.setRoles(new HashSet<>());
         user.getRoles().add(roleRepository.findByName("ROLE_USER"));
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         return userRepository.save(user);
@@ -57,21 +60,18 @@ public class UserServiceImpl implements BlogService<User> {
 
     @Override
     public User update(User user, long id) {
+        checkAuthorized(id);
         User u = findById(id);
-        User userLogin = getMyUser();
-        if (userLogin.getId() == id || userLoginIsAdmin()) {
-            if (!user.getEmail().equals(u.getEmail())){
-                if (userRepository.findByEmail(user.getEmail())!=null){
-                    throw new BadRequestException("Email is exist");
-                }
+        if (!user.getEmail().equals(u.getEmail())) {
+            if (userRepository.findByEmail(user.getEmail()) != null) {
+                throw new BadRequestException("Email is exist");
             }
-            u.setEmail(user.getEmail());
-            u.setFirstname(user.getFirstname());
-            u.setLastname(user.getLastname());
-            u.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-            return userRepository.save(u);
         }
-        throw new BadRequestException("Unauthorized");
+        u.setEmail(user.getEmail());
+        u.setFirstname(user.getFirstname());
+        u.setLastname(user.getLastname());
+        u.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+        return userRepository.save(u);
     }
 
     @Override
@@ -96,14 +96,11 @@ public class UserServiceImpl implements BlogService<User> {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return findByName(userDetails.getUsername());
     }
-    private boolean userLoginIsAdmin(){
+
+    public void checkAuthorized(long id) {
         User user = getMyUser();
-        Set<Role> roles = user.getRoles();
-        for (Role role:roles){
-            if (role.getName().equals("ROLE_ADMIN")){
-                return true;
-            }
+        if (user.getId() != id && user.getRoles().size() != 2) {
+            throw new UnauthorizedException("Unauthorized");
         }
-        return false;
     }
 }

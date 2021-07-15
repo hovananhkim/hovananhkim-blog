@@ -39,8 +39,8 @@ public class PostDtoToPost extends Converter<PostDTO, Post> {
         Category category = categoryService.findById(source.getCategory());
         post.setCategory(category);
         Set<Tag> tags = new HashSet<>();
-        for(String tagName:source.getTags()){
-            if (tagRepository.findByName(tagName)==null){
+        for (String tagName : source.getTags()) {
+            if (tagRepository.findByName(tagName) == null) {
                 Tag tag = new Tag();
                 tag.setId(0);
                 tag.setName(tagName);
