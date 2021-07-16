@@ -3,6 +3,7 @@ package com.openwt.blog.config;
 import com.openwt.blog.exception.UnauthorizedException;
 import com.openwt.blog.service.impl.UserDetailServiceImpl;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -36,7 +37,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         String email = null;
         String jwtToken = null;
         if (header != null && header.startsWith(TOKEN_PREFIX)) {
-
             jwtToken = header.replace(TOKEN_PREFIX, "");
             try {
                 email = jwtTokenProvider.getUsernameFromToken(jwtToken);
@@ -44,6 +44,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 logger.error("an error occurred during getting username from token", e);
             } catch (ExpiredJwtException e) {
                 logger.error("the token is expired and not valid anymore", e);
+            } catch (MalformedJwtException e){
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             }
         } else {
             logger.warn("couldn't find bearer string, will ignore the header");
