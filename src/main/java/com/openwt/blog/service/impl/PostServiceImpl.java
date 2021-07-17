@@ -38,11 +38,10 @@ public class PostServiceImpl implements BlogService<Post> {
         return postRepository.findByTitleContaining(keyword);
     }
 
-    @Override
-    public Post findByName(String keyword) {
-        verifyPostIsExist(keyword);
-        return postRepository.findByTitle(keyword);
+    public List<Post> findByContentContaining(String keyword){
+        return postRepository.findByContentContaining(keyword);
     }
+
 
     @Override
     public Post save(Post post) {
@@ -88,12 +87,6 @@ public class PostServiceImpl implements BlogService<Post> {
     private void verifyPostIsExist(long id) {
         if (!postRepository.existsById(id)) {
             throw new NotFoundException(String.format("Post id: %d not found", id));
-        }
-    }
-
-    private void verifyPostIsExist(String keyword) {
-        if (postRepository.findByTitleContaining(keyword) == null) {
-            throw new NotFoundException(String.format("Post title: %s not found", keyword));
         }
     }
 }

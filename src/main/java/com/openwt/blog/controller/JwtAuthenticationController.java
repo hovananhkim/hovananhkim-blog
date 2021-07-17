@@ -18,7 +18,7 @@ public class JwtAuthenticationController {
     private JwtAuthenticationService jwtAuthenticationService;
     @Autowired
     private UserServiceImpl userService;
-    @PostMapping({"/auth", "/login"})
+    @PostMapping("/login")
     public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest login) {
         return jwtAuthenticationService.login(login);
     }

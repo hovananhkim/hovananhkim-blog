@@ -8,5 +8,6 @@ import java.util.Optional;
 
 public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findByTitleContaining(String keyword);
+    List<Post> findByContentContaining(String keyword);
     Post findByTitle(String keyword);
 }

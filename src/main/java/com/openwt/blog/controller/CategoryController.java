@@ -15,17 +15,17 @@ public class CategoryController {
     @Autowired
     private CategoryServiceImpl categoryService;
 
-    @RequestMapping("/{id}")
+    @GetMapping("/{id}")
     public Category get(@PathVariable long id) {
         return categoryService.findById(id);
     }
 
-    @RequestMapping
+    @GetMapping
     public List<Category> getAll() {
         return categoryService.findAll();
     }
 
-    @RequestMapping("/search")
+    @GetMapping("/search")
     public List<Category> search(@RequestParam String keyword) {
         return categoryService.findByNameContaining(keyword);
     }

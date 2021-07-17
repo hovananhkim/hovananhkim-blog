@@ -41,7 +41,6 @@ public class UserServiceImpl implements BlogService<User> {
         return userRepository.findByFirstnameContainsOrLastnameContains(keyword, keyword);
     }
 
-    @Override
     public User findByName(String keyword) {
         verifyUserIsExist(keyword);
         return userRepository.findByEmail(keyword);
@@ -82,8 +81,7 @@ public class UserServiceImpl implements BlogService<User> {
 
     private void verifyUserIsExist(long id) {
         if (!userRepository.existsById(id)) {
-//            throw new NotFoundException(String.format("User id: %d not found", id));
-
+            throw new NotFoundException(String.format("User id: %d not found", id));
         }
 
     }

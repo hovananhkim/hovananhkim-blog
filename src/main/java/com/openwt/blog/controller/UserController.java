@@ -10,30 +10,30 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/users")
 public class UserController {
     @Autowired
     private UserServiceImpl userService;
 
-    @GetMapping("/users/{id}")
+    @GetMapping("/{id}")
     public User get(@PathVariable long id) {
         return userService.findById(id);
     }
 
     @Secured("ROLE_ADMIN")
-    @GetMapping("/users")
+    @GetMapping
     public List<User> getAll() {
         return userService.findAll();
     }
 
     @Secured("ROLE_ADMIN")
-    @DeleteMapping("/users/{id}")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable long id) {
         userService.delete(id);
     }
 
     @Secured({"ROLE_USER"})
-    @PutMapping("users/{id}")
+    @PutMapping("/{id}")
     public User put(@Valid @RequestBody User user, @PathVariable long id) {
         return userService.update(user, id);
     }

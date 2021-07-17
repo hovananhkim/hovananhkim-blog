@@ -34,12 +34,6 @@ public class CategoryServiceImpl implements BlogService<Category> {
     }
 
     @Override
-    public Category findByName(String keyword) {
-        verifyCategoryIsExist(keyword);
-        return categoryRepository.findByName(keyword);
-    }
-
-    @Override
     public Category save(Category category) {
         if (categoryRepository.findByName(category.getName()) != null) {
             throw new BadRequestException("Category is exist");
@@ -65,12 +59,6 @@ public class CategoryServiceImpl implements BlogService<Category> {
     public void verifyCategoryIsExist(long id) {
         if (!categoryRepository.existsById(id)) {
             throw new NotFoundException(String.format("Category id: %d not found", id));
-        }
-    }
-
-    public void verifyCategoryIsExist(String keyword) {
-        if (categoryRepository.findByNameContaining(keyword) == null) {
-            throw new NotFoundException(String.format("Category name: %s not found", keyword));
         }
     }
 }

@@ -9,8 +9,6 @@ public interface BlogService<T> {
 
     List<T> findByNameContaining(String keyword);
 
-    T findByName(String keyword);
-
     T save(T t);
 
     T update(T t, long id);
