@@ -42,7 +42,7 @@ public class User {
     private Set<Role> roles;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonIgnoreProperties({"user", "category", "tags", "createDate", "updateDate"})
+    @JsonIgnoreProperties({"user", "category", "tags"})
     private Set<Post> posts;
 
     public User(String email, String firstname, String lastname, String password) {

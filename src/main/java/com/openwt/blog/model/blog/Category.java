@@ -29,7 +29,7 @@ public class Category {
     private Date updateDate = new Date();
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonIgnoreProperties({"category", "user", "tags", "createDate", "updateDate"})
+    @JsonIgnoreProperties({"category", "tags"})
     private Set<Post> posts;
 
 }

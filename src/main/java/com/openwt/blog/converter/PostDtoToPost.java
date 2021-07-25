@@ -6,10 +6,8 @@ import com.openwt.blog.model.blog.Post;
 import com.openwt.blog.model.blog.Tag;
 import com.openwt.blog.model.dto.PostDTO;
 import com.openwt.blog.model.user.User;
-import com.openwt.blog.repository.CategoryRepository;
 import com.openwt.blog.repository.TagRepository;
 import com.openwt.blog.service.impl.CategoryServiceImpl;
-import com.openwt.blog.service.impl.PostServiceImpl;
 import com.openwt.blog.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,8 +22,6 @@ public class PostDtoToPost extends Converter<PostDTO, Post> {
     @Autowired
     private CategoryServiceImpl categoryService;
     @Autowired
-    private PostServiceImpl postService;
-    @Autowired
     private TagRepository tagRepository;
 
     @Override
@@ -34,8 +30,12 @@ public class PostDtoToPost extends Converter<PostDTO, Post> {
         post.setId(0);
         post.setTitle(source.getTitle());
         post.setContent(source.getContent());
+        post.setUrl(source.getUrl());
         User user = userService.getMyUser();
         post.setUser(user);
+        if (user.getRoles().size()==2){
+            post.setIsActive(true);
+        }
         Category category = categoryService.findById(source.getCategoryId());
         post.setCategory(category);
         Set<Tag> tags = new HashSet<>();

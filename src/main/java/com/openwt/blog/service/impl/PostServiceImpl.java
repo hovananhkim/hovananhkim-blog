@@ -70,13 +70,20 @@ public class PostServiceImpl implements BlogService<Post> {
         verifyPostIsExist(id);
         Post post = findById(id);
         checkAuthorized(post.getUser().getId());
-        User user = userService.getMyUser();
+        User user = userService.findById(post.getUser().getId());
         user.getPosts().remove(post);
         Category category = post.getCategory();
         category.getPosts().remove(post);
         postRepository.deleteById(id);
     }
 
+    public Post active(long id){
+        System.out.println(id);
+        Post post=findById(id);
+        post.setId(id);
+        post.setIsActive(!post.getIsActive());
+        return save(post);
+    }
     public void checkAuthorized(long id) {
         User user = userService.getMyUser();
         if (user.getId() != id && user.getRoles().size()!=2){

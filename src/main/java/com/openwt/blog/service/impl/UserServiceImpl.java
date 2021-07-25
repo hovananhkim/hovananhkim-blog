@@ -75,8 +75,23 @@ public class UserServiceImpl implements BlogService<User> {
 
     @Override
     public void delete(long id) {
-        verifyUserIsExist(id);
-        userRepository.deleteById(id);
+    }
+
+    public User block(long id){
+        User user = findById(id);
+        user.setId(id);
+        Set<Role> Block = new HashSet<>();
+        user.setRoles(Block);
+        return userRepository.save(user);
+    }
+
+    public User unBlock(long id){
+        User user = findById(id);
+        user.setId(id);
+        Set<Role> UnBlock = new HashSet<>();
+        UnBlock.add(roleRepository.findByName("ROLE_USER"));
+        user.setRoles(UnBlock);
+        return userRepository.save(user);
     }
 
     private void verifyUserIsExist(long id) {

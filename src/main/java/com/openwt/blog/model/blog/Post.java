@@ -1,10 +1,12 @@
 package com.openwt.blog.model.blog;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.openwt.blog.model.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -28,10 +30,14 @@ public class Post {
     @NotBlank
     private String content;
 
+    private String url;
+
     @Column(nullable = false)
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm")
     private Date createDate = new Date();
 
     @Column(nullable = false)
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm")
     private Date updateDate = new Date();
 
     @NotNull
@@ -43,7 +49,7 @@ public class Post {
     private Category category;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JsonIgnoreProperties({"posts","firstname","lastname","password","roles"})
+    @JsonIgnoreProperties({"posts","password"})
     @JoinColumn(name = "users_id")
     private User user;
 

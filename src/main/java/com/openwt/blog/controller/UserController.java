@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
     @Autowired
     private UserServiceImpl userService;
@@ -20,6 +21,11 @@ public class UserController {
         return userService.findById(id);
     }
 
+    @GetMapping("/find")
+    public User getByEmail(@RequestParam String email) {
+        return userService.findByName(email);
+    }
+
     @Secured("ROLE_ADMIN")
     @GetMapping
     public List<User> getAll() {
@@ -27,9 +33,14 @@ public class UserController {
     }
 
     @Secured("ROLE_ADMIN")
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable long id) {
-        userService.delete(id);
+    @PutMapping("/{id}/block")
+    public User block(@PathVariable long id) {
+        return userService.block(id);
+    }
+    @Secured("ROLE_ADMIN")
+    @PutMapping("/{id}/unblock")
+    public User unBlock(@PathVariable long id) {
+        return userService.unBlock(id);
     }
 
     @Secured({"ROLE_USER"})

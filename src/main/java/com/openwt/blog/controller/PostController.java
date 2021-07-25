@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/posts")
+@CrossOrigin(origins = "http://localhost:3000")
 public class PostController {
     @Autowired
     private PostServiceImpl postService;
@@ -48,4 +49,8 @@ public class PostController {
     public void delete(@PathVariable long id) {
         postService.delete(id);
     }
+
+    @Secured("ROLE_ADMIN")
+    @PutMapping("/{id}/active")
+    public Post active(@PathVariable long id){return postService.active(id); }
 }
