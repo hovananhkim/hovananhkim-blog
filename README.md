@@ -1,1 +1,26 @@
 # hovananhkim-blog
+- Run project: ./gradlew run
+- Guest: 
+  - Login: /api/login (jwt) 
+  - Register: /api/register
+  - Get user by id: /api/users/{id} 
+  - Get all post: /api/posts/** 
+  - Get all category: /api/categories/**
+- User:
+  - All role guest
+  - CRUD post:
+    - Create post: /api/posts
+    - Update post: /api/posts/{id}
+    - Delete post: /api/posts/{id}
+  - Update user: /api/users/{id}
+- Admin:
+  - All role
+  - CRU User:
+    - Register user: /api/register
+    - Update user: /api/users/{id}
+    - Block or Unblock user: /api/users/{id}/block (or /unblock)
+  - Active or Unactive post: /api/posts/{id}/active
+  - CRUD category:
+    - Create category: /api/categories
+    - Update category: /api/categories/{id}
+    - Delete category: /api/categories/{id}
