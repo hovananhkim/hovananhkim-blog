@@ -19,6 +19,7 @@ import java.util.HashSet;
 public class DataSeedingListener implements ApplicationListener<ContextRefreshedEvent> {
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private RoleRepository roleRepository;
 

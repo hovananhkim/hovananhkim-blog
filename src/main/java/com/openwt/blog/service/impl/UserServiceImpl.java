@@ -61,12 +61,6 @@ public class UserServiceImpl implements BlogService<User> {
     public User update(User user, long id) {
         checkAuthorized(id);
         User u = findById(id);
-        if (!user.getEmail().equals(u.getEmail())) {
-            if (userRepository.findByEmail(user.getEmail()) != null) {
-                throw new BadRequestException("Email is exist");
-            }
-        }
-        u.setEmail(user.getEmail());
         u.setFirstname(user.getFirstname());
         u.setLastname(user.getLastname());
         u.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));

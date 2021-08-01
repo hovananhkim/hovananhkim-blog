@@ -71,9 +71,7 @@ public class PostServiceImpl implements BlogService<Post> {
         Post post = findById(id);
         checkAuthorized(post.getUser().getId());
         User user = userService.findById(post.getUser().getId());
-        user.getPosts().remove(post);
         Category category = post.getCategory();
-        category.getPosts().remove(post);
         postRepository.deleteById(id);
     }
 

@@ -45,7 +45,14 @@ public class CategoryServiceImpl implements BlogService<Category> {
     @Override
     public Category update(Category category, long id) {
         verifyCategoryIsExist(id);
+        Category category1 = findById(id);
         category.setId(id);
+        category.setName(category.getName());
+        if (!category.getName().equals(category1.getName())){
+            if (categoryRepository.findByName(category.getName()) != null) {
+                throw new BadRequestException("Category is exist");
+            }
+        }
         category.setUpdateDate(new Date());
         return categoryRepository.save(category);
     }

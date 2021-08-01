@@ -33,12 +33,12 @@ public class UserController {
     }
 
     @Secured("ROLE_ADMIN")
-    @PutMapping("/{id}/block")
+    @PutMapping("/{id}/ban")
     public User block(@PathVariable long id) {
         return userService.block(id);
     }
     @Secured("ROLE_ADMIN")
-    @PutMapping("/{id}/unblock")
+    @PutMapping("/{id}/unban")
     public User unBlock(@PathVariable long id) {
         return userService.unBlock(id);
     }
