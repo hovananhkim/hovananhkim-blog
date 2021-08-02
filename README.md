@@ -12,7 +12,7 @@
     - Create post: /api/posts
     - Update post: /api/posts/{id}
     - Delete post: /api/posts/{id}
-  - Update user: /api/users/{id}
+  - Edit my user: /api/users/{id}
 - Admin:
   - All role
   - CRU User:

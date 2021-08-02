@@ -22,6 +22,7 @@ import java.util.Set;
 public class UserServiceImpl implements BlogService<User> {
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private RoleRepository roleRepository;
 
@@ -71,7 +72,7 @@ public class UserServiceImpl implements BlogService<User> {
     public void delete(long id) {
     }
 
-    public User block(long id){
+    public User block(long id) {
         User user = findById(id);
         user.setId(id);
         Set<Role> Block = new HashSet<>();
@@ -79,7 +80,7 @@ public class UserServiceImpl implements BlogService<User> {
         return userRepository.save(user);
     }
 
-    public User unBlock(long id){
+    public User unBlock(long id) {
         User user = findById(id);
         user.setId(id);
         Set<Role> UnBlock = new HashSet<>();

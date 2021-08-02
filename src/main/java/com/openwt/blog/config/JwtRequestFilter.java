@@ -44,7 +44,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 logger.error("an error occurred during getting username from token", e);
             } catch (ExpiredJwtException e) {
                 logger.error("the token is expired and not valid anymore", e);
-            } catch (MalformedJwtException e){
+            } catch (MalformedJwtException e) {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             }
         } else {

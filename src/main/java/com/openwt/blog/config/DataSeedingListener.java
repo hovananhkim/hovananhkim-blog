@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 
-
 @Component
 @Configuration
 public class DataSeedingListener implements ApplicationListener<ContextRefreshedEvent> {

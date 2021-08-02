@@ -18,14 +18,17 @@ import java.util.*;
 public class PostServiceImpl implements BlogService<Post> {
     @Autowired
     private PostRepository postRepository;
+
     @Autowired
     private PostDtoToPost postDtoToPost;
+
     @Autowired
     private UserServiceImpl userService;
+
     @Override
     public Post findById(long id) {
         verifyPostIsExist(id);
-        return postRepository .findById(id).get();
+        return postRepository.findById(id).get();
     }
 
     @Override
@@ -38,7 +41,7 @@ public class PostServiceImpl implements BlogService<Post> {
         return postRepository.findByTitleContaining(keyword);
     }
 
-    public List<Post> findByContentContaining(String keyword){
+    public List<Post> findByContentContaining(String keyword) {
         return postRepository.findByContentContaining(keyword);
     }
 
@@ -48,7 +51,7 @@ public class PostServiceImpl implements BlogService<Post> {
         return postRepository.save(post);
     }
 
-    public Post save(PostDTO postDTO){
+    public Post save(PostDTO postDTO) {
         return save(postDtoToPost.convert(postDTO));
     }
 
@@ -56,6 +59,7 @@ public class PostServiceImpl implements BlogService<Post> {
     public Post update(Post post, long id) {
         return null;
     }
+
     public Post update(PostDTO postDto, long id) {
         verifyPostIsExist(id);
         checkAuthorized(postRepository.findById(id).get().getUser().getId());
@@ -75,16 +79,17 @@ public class PostServiceImpl implements BlogService<Post> {
         postRepository.deleteById(id);
     }
 
-    public Post active(long id){
+    public Post active(long id) {
         System.out.println(id);
-        Post post=findById(id);
+        Post post = findById(id);
         post.setId(id);
         post.setIsActive(!post.getIsActive());
         return save(post);
     }
+
     public void checkAuthorized(long id) {
         User user = userService.getMyUser();
-        if (user.getId() != id && user.getRoles().size()!=2){
+        if (user.getId() != id && user.getRoles().size() != 2) {
             throw new UnauthorizedException("Unauthorized");
         }
     }
